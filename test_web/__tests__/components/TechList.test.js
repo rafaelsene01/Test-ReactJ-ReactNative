@@ -1,9 +1,13 @@
 import React from 'react';
 import { render, fireEvent, cleanup } from '@testing-library/react';
+import { useSelector } from 'react-redux';
 
 import TechList from '~/components/TechList';
 
+jest.mock('react-redux');
+
 describe('TechList component', () => {
+  /*
   beforeEach(() => {
     localStorage.clear();
   });
@@ -33,5 +37,21 @@ describe('TechList component', () => {
       JSON.stringify(['Node.js'])
     );
     expect(getByTestId('tech-list')).toContainElement(getByText('Node.js'));
+  });
+  */
+
+  it('should render tech list', () => {
+    useSelector.mockImplementation(cb =>
+      cb({
+        techs: ['Node.js', 'ReactJS'],
+      })
+    );
+
+    const { getByText, getByTestId, debug } = render(<TechList />);
+
+    debug();
+
+    expect(getByTestId('tech-list')).toContainElement(getByText('Node.js'));
+    expect(getByTestId('tech-list')).toContainElement(getByText('ReactJS'));
   });
 });

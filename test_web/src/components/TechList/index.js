@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 // import { Container } from './styles';
 
 export default function TechList() {
-  const [techs, setTechs] = useState([]);
+  // const [techs, setTechs] = useState([]);
   const [newTech, setNewTech] = useState('');
 
+  const dispatch = useDispatch();
+  const techs = useSelector(state => state.techs);
+
+  /*
   useEffect(() => {
     const techs = localStorage.getItem('techs');
 
@@ -22,6 +27,13 @@ export default function TechList() {
     setTechs([...techs, newTech]);
     setNewTech('');
   }
+*/
+
+  function handleAddTech() {
+    dispatch({ type: 'ADD_TACH', payload: { tech: newTech } });
+    setNewTech('');
+  }
+
   return (
     <form data-testid="tech-form" onSubmit={handleAddTech}>
       <ul data-testid="tech-list">
